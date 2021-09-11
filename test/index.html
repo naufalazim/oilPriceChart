@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Test Price</h1>
+
+    <p>
+
+        Base: <span id='a'></span><br />
+        Price: <span id='b'></span>
+        
+
+    </p>
+
+    
+
+    <script>
+
+        //https://api.cryptonator.com/api/full/btc-usd
+
+
+        async function getData() {
+            const response = await fetch('https://api.cryptonator.com/api/ticker/btc-usd');
+            const data = await response.json();
+            console.log(data);
+
+            const {ticker = [base ,price] } = data;
+
+            document.getElementById('a').textContent = ticker.base;
+            document.getElementById('b').textContent = ticker.price;
+
+        }
+
+        getData();
+
+        setInterval(getData, 10000);
+
+
+    </script>
+</body>
+</html>
