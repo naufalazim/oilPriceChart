@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Price</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+</head>
+<body>
+
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <script>
+        //set labels x and y:
+const xlabels = [];
+const ylabels = [];
+
+
+chartIt();
+
+async function chartIt () {
+    await getData();
+const ctx = document.getElementById('myChart').getContext('2d');
+
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: xlabels,
+        datasets: [{
+            label: 'Oil Prices Index',
+            data: ylabels,
+            backgroundColor: [
+                'rgba(255,255,255,1)'
+            ],
+            borderColor: [
+                'rgba(0,0,0,1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+
+});
+}
+//======================================================
+
+
+        async function getData() {
+            const response = await fetch('BrentOilPrices.csv');
+            const data = await response.text();
+            console.log(data);
+
+            const table = data.split('\n').slice(1);
+
+            table.forEach( row => {
+                const column = row.split(',');
+                const year = column[0];
+                xlabels.push(year);
+                const temp = column[1];
+                ylabels.push(temp);
+                console.log(year, temp);
+            })
+        }
+
+
+
+    </script>
+</body>
+</html>
